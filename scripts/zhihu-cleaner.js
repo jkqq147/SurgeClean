@@ -9,26 +9,20 @@ const url = $request.url;
 if (!body) {
     $done({});
 } else {
-    // 特殊处理开屏广告 - 直接修改字符串
-    if (url.match(/commercial_api.*launch/) || url.match(/commercial_api\/real_time_launch/)) {
+    // 特殊处理开屏广告 - 使用正则直接替换（不解析JSON避免转义问题）
+    if (url.match(/commercial_api\/real_time_launch/) || url.match(/commercial_api.*launch/)) {
         try {
-            // 设置广告时长为0或负值
+            // 关键：使用转义的引号匹配，因为响应可能是转义的JSON
+            body = body.replace(/img_play_duration\\":\d+/g, 'img_play_duration\\":0');
+            body = body.replace(/launch_timeout\\":\d+/g, 'launch_timeout\\":0');
+            
+            // 同时处理未转义的情况
             body = body.replace(/"img_play_duration":\d+/g, '"img_play_duration":0');
             body = body.replace(/"launch_timeout":\d+/g, '"launch_timeout":0');
             body = body.replace(/"duration":\d+/g, '"duration":0');
             body = body.replace(/"show_time":\d+/g, '"show_time":0');
-            
-            // 尝试解析并清空广告数组
-            try {
-                let launchObj = JSON.parse(body);
-                if (launchObj.launch) launchObj.launch = [];
-                if (launchObj.ads) launchObj.ads = [];
-                if (launchObj.ad) launchObj.ad = {};
-                if (launchObj.show !== undefined) launchObj.show = false;
-                body = JSON.stringify(launchObj);
-            } catch(e) {
-                // 如果解析失败，继续使用字符串替换的结果
-            }
+            body = body.replace(/"ads_v2":\s*\[[\s\S]*?\]/g, '"ads_v2":[]');
+            body = body.replace(/"launch":\s*\[[\s\S]*?\]/g, '"launch":[]');
             
             $done({ body });
             return;
@@ -41,32 +35,37 @@ if (!body) {
         let obj = JSON.parse(body);
         const url = $request.url;
         
-        // 推荐流去广告
-        if (url.includes('/topstory') || url.includes('/recommend')) {
+        // 推荐流去广告（增强版）
+        if (url.includes('/topstory/recommend')) {
             if (obj.data) {
+                // 过滤关键词
+                const filterKeywords = ['副业', '赚钱', '挣钱', '变现', '运营', '电商', '剪辑', '失业', '收益', '稿费', '贷款', '存款', '兼职'];
+                
                 obj.data = obj.data.filter(item => {
-                    // 过滤广告类型
-                    if (item.type === 'feed_advert' || 
+                    // 过滤明确的广告
+                    if (item.hasOwnProperty('ad') || 
+                        item.promotion_extra != null ||
                         item.type === 'market_card' ||
-                        item.common_card?.feed_content?.type === 'ad') {
+                        item.common_card?.style?.type === 'ads' ||
+                        item.extra?.type === 'ads') {
                         return false;
                     }
                     
-                    // 过滤带广告标记的内容
-                    if (item.extra?.type === 'ads' ||
-                        item.card_type === 'slot_event_card' ||
-                        item.ad_info) {
-                        return false;
-                    }
-                    
-                    // 过滤营销内容
-                    if (item.target?.title_area?.text?.includes('广告') ||
-                        item.target?.title_area?.text?.includes('营销')) {
-                        return false;
+                    // 过滤包含营销关键词的内容
+                    if (item.common_card?.feed_content?.title?.panel_text) {
+                        let title = item.common_card.feed_content.title.panel_text;
+                        for (let keyword of filterKeywords) {
+                            if (title.includes(keyword)) return false;
+                        }
                     }
                     
                     return true;
                 });
+                
+                // 重新编号
+                for (let i = 0; i < obj.data.length; i++) {
+                    obj.data[i].offset = i + 1;
+                }
             }
         }
         
