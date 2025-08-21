@@ -38,7 +38,15 @@
 ## 📋 可用模块
 
 ### 有道词典去广告
-[有道词典](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/youdao.sgmodule)
+- **模块地址**: [youdao.sgmodule](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/youdao.sgmodule)
+- **功能说明**: 去除有道词典应用内广告
+
+### Bilibili 去开屏广告
+- **模块地址**: [bilibili-splash.sgmodule](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/bilibili-splash.sgmodule)
+- **功能说明**: 移除哔哩哔哩客户端开屏广告
+  - 拦截开屏广告展示接口
+  - 处理开屏广告预加载列表
+  - 将广告时间设置为未来时间，阻止显示
 
 ---
 

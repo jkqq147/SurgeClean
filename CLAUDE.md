@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Context
+
+- **GitHub Username**: jkqq147
+- **Repository**: PureSurge Ruleset
+
 ## Project Overview
 
 PureSurge Ruleset is a personal Surge ad-blocking and splash screen removal ruleset project. It's designed to provide a clean, fast, and non-intrusive network experience by blocking ads, splash screens, and tracking domains while maintaining app functionality.
