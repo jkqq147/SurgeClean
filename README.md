@@ -48,6 +48,14 @@
   - 处理开屏广告预加载列表
   - 将广告时间设置为未来时间，阻止显示
 
+### 银行应用代理豁免
+- **模块地址**: [bank-bypass.sgmodule](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/bank-bypass.sgmodule)
+- **功能说明**: 解决银行App检测VPN/代理的问题
+  - 支持农业银行、工商银行、建设银行、中国银行、交通银行
+  - 涵盖招商银行、邮储银行、浦发银行、中信银行、民生银行
+  - 包含光大银行、华夏银行、平安银行及银联相关域名
+  - 添加银行证书验证域名和常用IP段直连规则
+
 ---
 
 ---

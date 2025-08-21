@@ -1,0 +1,99 @@
+#!name=银行应用代理豁免
+#!desc=解决银行App检测VPN/代理的问题，支持农业银行、工商银行、建设银行等主流银行
+
+[Rule]
+# 农业银行
+DOMAIN-SUFFIX,abchina.com,DIRECT
+DOMAIN-SUFFIX,abchina.com.cn,DIRECT
+DOMAIN-SUFFIX,95599.cn,DIRECT
+DOMAIN-SUFFIX,abcmobile.cn,DIRECT
+DOMAIN-KEYWORD,abchina,DIRECT
+DOMAIN-KEYWORD,95599,DIRECT
+
+# 工商银行
+DOMAIN-SUFFIX,icbc.com.cn,DIRECT
+DOMAIN-SUFFIX,icbc-ltd.com,DIRECT
+DOMAIN-SUFFIX,icbc.com,DIRECT
+DOMAIN-SUFFIX,95588.com,DIRECT
+DOMAIN-KEYWORD,icbc,DIRECT
+
+# 建设银行
+DOMAIN-SUFFIX,ccb.com,DIRECT
+DOMAIN-SUFFIX,ccb.com.cn,DIRECT
+DOMAIN-SUFFIX,ccb.cn,DIRECT
+DOMAIN-SUFFIX,ccbfund.cn,DIRECT
+DOMAIN-KEYWORD,ccb,DIRECT
+
+# 中国银行
+DOMAIN-SUFFIX,boc.cn,DIRECT
+DOMAIN-SUFFIX,bankofchina.com,DIRECT
+DOMAIN-SUFFIX,bochk.com,DIRECT
+DOMAIN-KEYWORD,bankofchina,DIRECT
+
+# 交通银行
+DOMAIN-SUFFIX,bankcomm.com,DIRECT
+DOMAIN-SUFFIX,bankcomm.com.cn,DIRECT
+DOMAIN-SUFFIX,95559.com.cn,DIRECT
+DOMAIN-KEYWORD,bankcomm,DIRECT
+
+# 招商银行
+DOMAIN-SUFFIX,cmbchina.com,DIRECT
+DOMAIN-SUFFIX,cmbc.com.cn,DIRECT
+DOMAIN-SUFFIX,cmbimg.com,DIRECT
+DOMAIN-KEYWORD,cmbchina,DIRECT
+
+# 邮储银行
+DOMAIN-SUFFIX,psbc.com,DIRECT
+DOMAIN-SUFFIX,psbcoa.com.cn,DIRECT
+DOMAIN-KEYWORD,psbc,DIRECT
+
+# 浦发银行
+DOMAIN-SUFFIX,spdb.com.cn,DIRECT
+DOMAIN-SUFFIX,spdbccc.com.cn,DIRECT
+DOMAIN-KEYWORD,spdb,DIRECT
+
+# 中信银行
+DOMAIN-SUFFIX,citicbank.com,DIRECT
+DOMAIN-SUFFIX,ecitic.com,DIRECT
+DOMAIN-SUFFIX,ecitic.com.cn,DIRECT
+DOMAIN-KEYWORD,citicbank,DIRECT
+
+# 民生银行
+DOMAIN-SUFFIX,cmbc.com.cn,DIRECT
+DOMAIN-SUFFIX,minshengbank.com.cn,DIRECT
+DOMAIN-KEYWORD,minsheng,DIRECT
+
+# 光大银行
+DOMAIN-SUFFIX,cebbank.com,DIRECT
+DOMAIN-SUFFIX,ceblease.com.cn,DIRECT
+DOMAIN-KEYWORD,cebbank,DIRECT
+
+# 华夏银行
+DOMAIN-SUFFIX,hxb.com.cn,DIRECT
+DOMAIN-KEYWORD,hxb,DIRECT
+
+# 平安银行
+DOMAIN-SUFFIX,pingan.com.cn,DIRECT
+DOMAIN-SUFFIX,pingan.com,DIRECT
+DOMAIN-SUFFIX,18pingan.com,DIRECT
+DOMAIN-KEYWORD,pingan,DIRECT
+
+# 银联相关
+DOMAIN-SUFFIX,unionpay.com,DIRECT
+DOMAIN-SUFFIX,unionpayintl.com,DIRECT
+DOMAIN-SUFFIX,95516.com,DIRECT
+DOMAIN-KEYWORD,unionpay,DIRECT
+
+# 通用银行证书验证域名
+DOMAIN-SUFFIX,cfca.com.cn,DIRECT
+DOMAIN-SUFFIX,verisign.com,DIRECT
+DOMAIN-SUFFIX,digicert.com,DIRECT
+
+# IP段直连（中国银行业常用IP段）
+IP-CIDR,202.108.0.0/16,DIRECT,no-resolve
+IP-CIDR,210.74.0.0/16,DIRECT,no-resolve
+IP-CIDR,219.141.0.0/16,DIRECT,no-resolve
+
+[MITM]
+# 银行App不建议开启MitM，保持注释状态
+# hostname = %APPEND%
