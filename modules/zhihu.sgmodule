@@ -14,14 +14,14 @@ DOMAIN-KEYWORD,sugar.zhihu.com,REJECT
 DOMAIN-KEYWORD,ad-style-service,REJECT
 
 [URL Rewrite]
-# 核心广告接口拦截（最高优先级）
+# 开屏广告拦截（优先级最高 - 注意末尾不带问号）
+^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2 - reject
+^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2 - reject
+^https?:\/\/api\.zhihu\.com\/ab\/api\/v\d\/products\/zhihu\/platforms\/(ios|android)\/config - reject
+
+# 核心广告接口拦截
 ^https?:\/\/api\.zhihu\.com\/commercial_api - reject-dict
 ^https?:\/\/api\.zhihu\.com\/root\/window - reject-dict
-
-# 开屏广告拦截
-^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2 - reject-dict
-^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2 - reject-dict
-^https?:\/\/api\.zhihu\.com\/ab\/api\/v\d\/products\/zhihu\/platforms\/(ios|android)\/config - reject
 
 # 回答底部广告
 ^https?:\/\/api\.zhihu\.com\/commercial_api\/answer\/\d+\/bottom-v2 - reject-dict
@@ -50,6 +50,10 @@ DOMAIN-KEYWORD,ad-style-service,REJECT
 ^https?:\/\/api\.zhihu\.com\/people\/recommended - reject-dict
 
 [Map Local]
+# 开屏广告直接返回空数据（最重要！）
+^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/reject-dict.json"
+^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/reject-dict.json"
+
 # IP地址直接拦截（知乎广告服务器）
 ^https?:\/\/118\.89\.204\.198 data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
 ^https?:\/\/103\.41\.167\.(236|237|234|235|226) data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
