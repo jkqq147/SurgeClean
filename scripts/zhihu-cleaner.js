@@ -4,10 +4,39 @@
  */
 
 let body = $response.body;
+const url = $request.url;
 
 if (!body) {
     $done({});
 } else {
+    // 特殊处理开屏广告 - 直接修改字符串
+    if (url.match(/commercial_api.*launch/) || url.match(/commercial_api\/real_time_launch/)) {
+        try {
+            // 设置广告时长为0或负值
+            body = body.replace(/"img_play_duration":\d+/g, '"img_play_duration":0');
+            body = body.replace(/"launch_timeout":\d+/g, '"launch_timeout":0');
+            body = body.replace(/"duration":\d+/g, '"duration":0');
+            body = body.replace(/"show_time":\d+/g, '"show_time":0');
+            
+            // 尝试解析并清空广告数组
+            try {
+                let launchObj = JSON.parse(body);
+                if (launchObj.launch) launchObj.launch = [];
+                if (launchObj.ads) launchObj.ads = [];
+                if (launchObj.ad) launchObj.ad = {};
+                if (launchObj.show !== undefined) launchObj.show = false;
+                body = JSON.stringify(launchObj);
+            } catch(e) {
+                // 如果解析失败，继续使用字符串替换的结果
+            }
+            
+            $done({ body });
+            return;
+        } catch (e) {
+            console.log('知乎开屏广告处理错误: ' + e);
+        }
+    }
+    
     try {
         let obj = JSON.parse(body);
         const url = $request.url;

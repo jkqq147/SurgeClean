@@ -56,11 +56,11 @@ DOMAIN-KEYWORD,ad-style-service,REJECT
 ^https?:\/\/2402:4e00:1200:ed00:0:9089:6dac:96b6 data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
 
 [Script]
+# 处理开屏广告 - 优先级最高
+zhihu_splash = type=http-response,pattern=^https?:\/\/api\.zhihu\.com\/commercial_api.*launch,requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0
+
 # 知乎净化脚本 - 处理推荐流、回答、评论等页面的广告
 zhihu_cleaner = type=http-response,pattern=^https?:\/\/(api|www)\.zhihu\.com\/(v4\/questions|recommend|people\/|feed-root|moments|topstory),requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0
-
-# 处理开屏广告
-zhihu_splash = type=http-response,pattern=^https?:\/\/api\.zhihu\.com\/(commercial_api\/(launch|real_time_launch)|app\/config|ab\/api),requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0
 
 # 处理云端配置
 zhihu_config = type=http-response,pattern=^https?:\/\/(m-cloud|appcloud2)\.zhihu\.com\/(api\/cloud\/config|v\d+\/config),requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0
