@@ -14,23 +14,35 @@ DOMAIN-KEYWORD,sugar.zhihu.com,REJECT
 DOMAIN-KEYWORD,ad-style-service,REJECT
 
 [URL Rewrite]
+# 核心广告接口拦截（最高优先级）
+^https?:\/\/api\.zhihu\.com\/commercial_api - reject-dict
+^https?:\/\/api\.zhihu\.com\/root\/window - reject-dict
+
+# 开屏广告拦截
+^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2 - reject-dict
+^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2 - reject-dict
+^https?:\/\/api\.zhihu\.com\/ab\/api\/v\d\/products\/zhihu\/platforms\/(ios|android)\/config - reject
+
+# 回答底部广告
+^https?:\/\/api\.zhihu\.com\/commercial_api\/answer\/\d+\/bottom-v2 - reject-dict
+
+# 浮窗广告
+^https?:\/\/api\.zhihu\.com\/bazaar\/float_window - reject-dict
+
+# 引导页广告
+^https?:\/\/api\.zhihu\.com\/me\/guides - reject-dict
+^https?:\/\/api\.zhihu\.com\/guide_center\/strategy - reject-dict
+
 # 基础广告接口拦截
-^https?:\/\/api\.zhihu\.com\/ab\/api\/v1\/products\/zhihu\/platforms\/ios\/config - reject
 ^https?:\/\/api\.zhihu\.com\/ad-style-service\/request - reject
-^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2\? - reject
-^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2\? - reject
-^https?:\/\/api\.zhihu\.com\/brand\/question\/\d+\/card\? - reject
-^https?:\/\/www\.zhihu\.com\/api\/v\d+\/brand\/question\/\d+\/card\? - reject
-^https?:\/\/api\.zhihu\.com\/market\/popover\? - reject
-^https?:\/\/api\.zhihu\.com\/search\/preset_words\? - reject
+^https?:\/\/api\.zhihu\.com\/brand\/question\/\d+\/card\? - reject-dict
+^https?:\/\/www\.zhihu\.com\/api\/v\d+\/brand\/question\/\d+\/card\? - reject-dict
+^https?:\/\/api\.zhihu\.com\/market\/popover\? - reject-dict
+^https?:\/\/api\.zhihu\.com\/search\/preset_words\? - reject-dict
 
-# 屏蔽开屏广告
-^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2 - reject
-^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2 - reject
-
-# 屏蔽品牌广告
-^https?:\/\/api\.zhihu\.com\/brand\/question\/\d+ - reject
-^https?:\/\/www\.zhihu\.com\/api\/v\d\/brand\/question\/\d+ - reject
+# 信息流配置
+^https?:\/\/api\.zhihu\.com\/feed\/render\/revisit\/tag_config - reject-dict
+^https?:\/\/api\.zhihu\.com\/content-distribution-core\/sections\/ - reject-dict
 
 # 屏蔽推荐流广告
 ^https?:\/\/api\.zhihu\.com\/topstory\/recommend\? - reject-dict
@@ -40,20 +52,15 @@ DOMAIN-KEYWORD,ad-style-service,REJECT
 [Map Local]
 # IP地址直接拦截（知乎广告服务器）
 ^https?:\/\/118\.89\.204\.198 data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-^https?:\/\/103\.41\.167\.\d+ data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
+^https?:\/\/103\.41\.167\.(236|237|234|235|226) data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
 ^https?:\/\/2402:4e00:1200:ed00:0:9089:6dac:96b6 data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-
-# 广告接口返回空数据
-^https?:\/\/api\.zhihu\.com\/commercial_api\/launch_v2\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-^https?:\/\/api\.zhihu\.com\/commercial_api\/real_time_launch_v2\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-^https?:\/\/api\.zhihu\.com\/brand\/question\/\d+\/card\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-^https?:\/\/www\.zhihu\.com\/api\/v\d+\/brand\/question\/\d+\/card\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-^https?:\/\/api\.zhihu\.com\/search\/preset_words\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
-^https?:\/\/api\.zhihu\.com\/market\/popover\? data="https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/empty.json"
 
 [Script]
 # 知乎净化脚本 - 处理推荐流、回答、评论等页面的广告
 zhihu_cleaner = type=http-response,pattern=^https?:\/\/(api|www)\.zhihu\.com\/(v4\/questions|recommend|people\/|feed-root|moments|topstory),requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0
+
+# 处理开屏广告
+zhihu_splash = type=http-response,pattern=^https?:\/\/api\.zhihu\.com\/(commercial_api\/(launch|real_time_launch)|app\/config|ab\/api),requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0
 
 # 处理云端配置
 zhihu_config = type=http-response,pattern=^https?:\/\/(m-cloud|appcloud2)\.zhihu\.com\/(api\/cloud\/config|v\d+\/config),requires-body=1,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/zhihu-cleaner.js,max-size=0

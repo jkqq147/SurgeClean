@@ -77,6 +77,27 @@ if (!body) {
             }
         }
         
+        // 开屏广告处理
+        if (url.includes('/commercial_api') || 
+            url.includes('/root/window') ||
+            url.includes('/app/config') ||
+            url.includes('/ab/api')) {
+            // 返回空的开屏广告数据
+            obj = {
+                "success": true,
+                "launch": [],
+                "ads": [],
+                "show": false,
+                "duration": 0,
+                "next_req_time": 9999999999999
+            };
+        }
+        
+        // 处理浮窗广告
+        if (url.includes('/bazaar/float_window') || url.includes('/me/guides')) {
+            obj = {};
+        }
+        
         // 云端配置处理 - 禁用广告相关配置
         if (url.includes('m-cloud.zhihu.com') || url.includes('appcloud2.zhihu.com')) {
             if (obj.config) {
@@ -94,6 +115,15 @@ if (!body) {
                 if (obj.config.video) {
                     obj.config.video.enable_ad = false;
                     obj.config.video.enable_pre_ad = false;
+                }
+                // 禁用开屏广告
+                if (obj.config.zhihu) {
+                    if (obj.config.zhihu.splash) {
+                        obj.config.zhihu.splash = {};
+                    }
+                    if (obj.config.zhihu.ad) {
+                        obj.config.zhihu.ad = {};
+                    }
                 }
             }
         }
