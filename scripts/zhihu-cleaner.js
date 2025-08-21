@@ -7,11 +7,21 @@ let body = $response.body;
 
 if (body) {
     switch(true) {
-        // 开屏广告处理 - 核心逻辑
+        // 开屏广告处理 - 同时处理 launch_v2 和 real_time_launch
+        case /commercial_api.*launch/.test($request.url):
         case /commercial_api\/real_time_launch/.test($request.url):
             try {
+                // 处理转义的JSON（\\"）
                 body = body.replace(/img_play_duration\\":\d+/g, 'img_play_duration\\":-1')
-                          .replace(/launch_timeout\\":\d+/g, 'launch_timeout\\":-1');
+                          .replace(/launch_timeout\\":\d+/g, 'launch_timeout\\":-1')
+                          .replace(/duration\\":\d+/g, 'duration\\":-1')
+                          .replace(/show_duration\\":\d+/g, 'show_duration\\":-1');
+                
+                // 处理正常的JSON（"）
+                body = body.replace(/"img_play_duration":\d+/g, '"img_play_duration":-1')
+                          .replace(/"launch_timeout":\d+/g, '"launch_timeout":-1')
+                          .replace(/"duration":\d+/g, '"duration":-1')
+                          .replace(/"show_duration":\d+/g, '"show_duration":-1');
             } catch(error) {
                 console.log('zhihu openad' + error);
             }
