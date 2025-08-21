@@ -35,17 +35,12 @@
 
 ---
 
-## 📂 目录结构（建议）
-```
-/modules
-  ├── base.sgmodule        # 基础去广告规则
-  ├── splash.sgmodule      # 去开屏广告专用
-  ├── tracker.sgmodule     # 去常见追踪域名
-/scripts
-  └── cleaner.js           # 精修脚本示例
-README.md                  # 项目介绍
-CHANGELOG.md               # 更新日志
-```
+## 📋 可用模块
+
+### 有道词典去广告
+[有道词典](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/youdao.sgmodule)
+
+---
 
 ---
 
