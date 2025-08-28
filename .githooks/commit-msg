@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Normalise locale for Unicode processing
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+msgfile="$1"
+
+# Skip auto-generated merge/revert commits
+if head -n1 "$msgfile" | grep -qE '^(Merge|Revert) '; then
+  exit 0
+fi
+
+# Read message without commented lines
+content="$(grep -vE '^\s*#' "$msgfile" || true)"
+
+# Reject literal "\\n" in commit message (should be real blank line)
+if printf "%s" "$content" | grep -q '\\n'; then
+  cat <<'EOF'
+错误：检测到提交说明包含字面量 "\\n"。
+请使用真正的空行分隔主题与正文，而不是输入反斜杠+n。
+
+修复方式：
+- 删除字面量 \\n；在主题行后按一次回车，形成真实空行；
+- 或使用编辑器的查找替换，将 "\\n" 替换为实际换行。
+EOF
+  exit 1
+fi
+
+# Require at least one Chinese character (CJK)
+# Try Python3 (robust on macOS/Linux), fallback to Perl range
+if printf "%s" "$content" | python3 - <<'PY'
+import sys, re
+s = sys.stdin.read()
+sys.exit(0 if re.search(r'[\u4e00-\u9fff]', s) else 1)
+PY
+then
+  exit 0
+fi
+
+if printf "%s" "$content" | perl -ne 'exit 0 if /[\x{4E00}-\x{9FFF}]/; END { exit 1 }'; then
+  exit 0
+fi
+
+# Fallback: allow any non-ASCII character (still encourages Chinese content)
+if printf "%s" "$content" | LC_ALL=C grep -q '[^ -~]'; then
+  exit 0
+fi
+
+cat <<'EOF'
+Commit message must be in Chinese (contain at least one Chinese character).
+请使用中文撰写提交信息（需包含至少一个中文字符）。
+Examples:
+  docs: 更新开发环境搭建说明
+
+Edit your message and try again, e.g.: git commit --amend
+EOF
+exit 1
+
