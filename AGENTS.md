@@ -1,8 +1,13 @@
 # Repository Guidelines
 
+## IMPORTANT: Development Prerequisites
+Before developing any Surge module or script, **ALWAYS** read the development documentation first:
+- `docs/surge-module-development-guide.md` - Comprehensive guide for module structure, scripting APIs, and best practices
+
 ## Project Structure & Module Organization
 - `modules/`: Surge rule modules (`.sgmodule`). Keep modules focused and composable, e.g., `base.sgmodule`, `splash.sgmodule`, `tracker.sgmodule`.
 - `scripts/`: Optional helper scripts for fine‑tuning (e.g., request cleaners). Keep scripts stateless and easy to audit.
+- `docs/`: Development documentation and guides
 - `README.md`: Usage and setup. `CHANGELOG.md`: Human‑readable release notes.
 
 Example layout:
@@ -13,7 +18,15 @@ modules/
   tracker.sgmodule
 scripts/
   cleaner.js
+docs/
+  surge-module-development-guide.md
 ```
+
+## Surge Module Development Process
+1. **Read Documentation First**: Review `docs/surge-module-development-guide.md` for syntax and APIs
+2. **Plan Module Structure**: Define metadata, rules, scripts, and MITM requirements
+3. **Follow Module Format**: Use correct section headers and override techniques (%APPEND%, %INSERT%)
+4. **Test Thoroughly**: Import and test in Surge before committing
 
 ## Build, Test, and Development Commands
 - No build step. Edit `.sgmodule` files directly and test in Surge.
@@ -24,11 +37,19 @@ scripts/
 - `.sgmodule` files: lowercase, concise purpose (e.g., `base.sgmodule`). Group rules by vendor/app and add brief comments for non‑obvious domains.
 - Prefer precise domains over broad wildcards; one host per line; keep rewrites/maps minimal and documented.
 - Scripts (`.js`): Node 18+, 2‑space indent, no external deps unless justified. Use clear names (e.g., `cleaner.js`, `rewrite-check.js`).
+- Always include proper metadata (#!name, #!desc) in modules
+
+## Scripting Guidelines
+- Use appropriate script type (http-request, http-response, cron, event)
+- Always call `$done()` to complete script execution
+- Choose engine wisely: `jsc` for small/frequent scripts, `webview` for complex ones
+- Utilize Surge APIs properly ($request, $response, $httpClient, $persistentStore, etc.)
 
 ## Testing Guidelines
 - Functional test: import the module in Surge, enable MitM only for necessary domains, restart target apps, and confirm reduced ads without feature breakage.
 - Log review: Inspect Surge requests; if something breaks, whitelist and document rationale.
 - Regressions: Avoid false positives; prefer opt‑in modules for aggressive rules.
+- Script testing: Enable debug=1 parameter to see detailed logs
 
 ## Commit & Pull Request Guidelines
 - Commits use Conventional Commits:
@@ -41,4 +62,4 @@ scripts/
 - Scope MitM to target domains; never enable global MitM.
 - Prefer blocklists that minimize collateral damage; remove or comment rules that cause app breakage.
 - Keep scripts transparent: no network exfiltration, minimal privileges, and clear comments for each action.
-
+- Use `-` prefix to explicitly exclude sensitive domains from MitM

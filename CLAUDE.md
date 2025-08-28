@@ -20,6 +20,8 @@ The project follows a modular structure for Surge rules:
   - `tracker.sgmodule` - Common tracking domain blocking
 - `/scripts/` - JavaScript files for advanced rule modifications
   - `cleaner.js` - Example script for fine-tuning
+- `/docs/` - Development documentation
+  - `surge-module-development-guide.md` - Comprehensive Surge module and script development guide
 
 ## Key Technical Context
 
@@ -53,6 +55,14 @@ hostname = %APPEND% api.example.com
 4. **Script**: Execute JavaScript for complex modifications
 
 ## Development Guidelines
+
+### IMPORTANT: Before Development
+**ALWAYS** read `docs/surge-module-development-guide.md` first before developing any Surge module or script. This guide contains:
+- Complete module structure and metadata syntax
+- All available configuration sections (Rule, Script, URL Rewrite, Map Local, MITM, etc.)
+- Surge scripting APIs ($request, $response, $httpClient, $persistentStore, etc.)
+- Script types and parameters
+- Best practices and examples
 
 ### Creating New Rules
 When adding new blocking rules:
