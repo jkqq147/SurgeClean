@@ -9,7 +9,7 @@
 
 [Script]
 # 开屏广告列表处理 - 移除广告内容
-bilibili-splash = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list,requires-body=1,max-size=0,script-path=../scripts/bilibili-splash.js
+bilibili-splash = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/bilibili-splash.js
 
 [MITM]
 hostname = %APPEND% app.bilibili.com

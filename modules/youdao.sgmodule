@@ -4,7 +4,7 @@
 #!homepage=https://github.com/jkqq147/SurgeClean
 
 [Script]
-youdao = type=http-response,pattern=^https:\/\/dict\.youdao\.com\/vip\/user\/status,requires-body=1,max-size=0,script-path=../scripts/youdao-vip.js
+youdao = type=http-response,pattern=^https:\/\/dict\.youdao\.com\/vip\/user\/status,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/youdao-vip.js
 
 [MITM]
 hostname = %APPEND% dict.youdao.com
