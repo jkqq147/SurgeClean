@@ -2,7 +2,6 @@
 #!desc=移除哔哩哔哩客户端开屏广告
 #!author=jkqq147
 #!homepage=https://github.com/jkqq147/PureSurge
-#!icon=https://raw.githubusercontent.com/jkqq147/PureSurge/main/icons/bilibili.png
 
 [Map Local]
 # 开屏广告展示接口 - 返回空数据
@@ -10,35 +9,7 @@
 
 [Script]
 # 开屏广告列表处理 - 移除广告内容
-bilibili-splash = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list,requires-body=1,max-size=0,script-path=inline
-
-bilibili-splash-inline = """
-let body = $response.body;
-let url = $request.url;
-
-try {
-    let obj = JSON.parse(body);
-    
-    // Handle splash list endpoint (预加载)
-    if (obj.data && obj.data.list) {
-        // Neutralize each splash ad item
-        for (let item of obj.data.list) {
-            // Set display duration to 0
-            item.duration = 0;
-            // Set begin and end times to future date (2040)
-            // This prevents the splash from being shown
-            item.begin_time = 2240150400;
-            item.end_time = 2240150400;
-        }
-    }
-    
-    body = JSON.stringify(obj);
-} catch (err) {
-    console.log("Bilibili splash ad removal error: " + err);
-}
-
-$done({ body });
-"""
+bilibili-splash = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list,requires-body=1,max-size=0,script-path=../scripts/bilibili-splash.js
 
 [MITM]
 hostname = %APPEND% app.bilibili.com
