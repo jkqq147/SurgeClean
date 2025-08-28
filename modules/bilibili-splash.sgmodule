@@ -1,7 +1,7 @@
 #!name=Bilibili 去开屏广告
 #!desc=移除哔哩哔哩客户端开屏广告
 #!author=jkqq147
-#!homepage=https://github.com/jkqq147/PureSurge
+#!homepage=https://github.com/jkqq147/SurgeClean
 
 [Map Local]
 # 开屏广告展示接口 - 返回空数据

@@ -1,6 +1,6 @@
 # Changelog
 
-本文件用于记录 **PureSurge Ruleset** 的所有显著变更。  
+本文件用于记录 **SurgeClean** 的所有显著变更。  
 遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/) 格式，版本号遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。  
 
 ---
