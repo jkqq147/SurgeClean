@@ -48,13 +48,13 @@
   - 处理开屏广告预加载列表
   - 将广告时间设置为未来时间，阻止显示
 
-### 银行应用代理豁免
-- **模块地址**: [bank-bypass.sgmodule](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/bank-bypass.sgmodule)
-- **功能说明**: 解决银行App检测VPN/代理的问题
-  - 支持农业银行、工商银行、建设银行、中国银行、交通银行
-  - 涵盖招商银行、邮储银行、浦发银行、中信银行、民生银行
-  - 包含光大银行、华夏银行、平安银行及银联相关域名
-  - 添加银行证书验证域名和常用IP段直连规则
+### 代理豁免（敏感应用直连）
+- **模块地址**: [proxy-bypass.sgmodule](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/proxy-bypass.sgmodule)
+- **功能说明**: 为对代理敏感的 App 提供直连（DIRECT）
+  - 默认涵盖主流银行与银联相关域名
+  - 新增淘宝/天猫相关域名直连（可按需扩展）
+  - 包含通用证书验证域名与必要 IP 段直连
+  - 可按需在本地添加其他敏感应用域名（如政务/支付等）
 
 ### 知乎去广告
 - **模块地址**: [zhihu.sgmodule](https://raw.githubusercontent.com/jkqq147/SurgeClean/main/modules/zhihu.sgmodule)

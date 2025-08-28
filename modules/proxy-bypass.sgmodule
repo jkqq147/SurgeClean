@@ -1,7 +1,8 @@
-#!name=银行应用代理豁免
-#!desc=解决银行App检测VPN/代理的问题，支持农业银行、工商银行、建设银行等主流银行
+#!name=代理豁免（敏感应用直连）
+#!desc=为对代理敏感的App提供直连（DIRECT），默认涵盖主流银行，可按需扩展
 
 [Rule]
+# 银行类（默认启用）
 # 农业银行
 DOMAIN-SUFFIX,abchina.com,DIRECT
 DOMAIN-SUFFIX,abchina.com.cn,DIRECT
@@ -89,11 +90,16 @@ DOMAIN-SUFFIX,cfca.com.cn,DIRECT
 DOMAIN-SUFFIX,verisign.com,DIRECT
 DOMAIN-SUFFIX,digicert.com,DIRECT
 
+# 电商类（淘宝/天猫，对代理敏感，建议直连）
+DOMAIN-SUFFIX,taobao.com,DIRECT
+DOMAIN-SUFFIX,tmall.com,DIRECT
+DOMAIN-SUFFIX,tb.cn,DIRECT
+
 # IP段直连（中国银行业常用IP段）
 IP-CIDR,202.108.0.0/16,DIRECT,no-resolve
 IP-CIDR,210.74.0.0/16,DIRECT,no-resolve
 IP-CIDR,219.141.0.0/16,DIRECT,no-resolve
 
 [MITM]
-# 银行App不建议开启MitM，保持注释状态
+# 对代理敏感的App通常不建议开启MitM，按需开启
 # hostname = %APPEND%

@@ -6,9 +6,11 @@
 ---
 
 ## [Unreleased]
-- 待添加的新规则
-- 调整已有规则
-- 修复可能的误杀
+- 重命名：`modules/bank-bypass.sgmodule` → `modules/proxy-bypass.sgmodule`
+- 改进：模块定位更通用（代理豁免/敏感应用直连），描述与文档更新
+- 维护：保留银行类直连规则，便于按需扩展其他敏感应用域名
+### Added
+- 代理豁免模块新增淘宝/天猫域名直连（`taobao.com`, `tmall.com`, `tb.cn`）
 
 ---
 
@@ -55,4 +57,3 @@
 ### Added
 - 初始版本发布
 - 发布 `README.md` 项目说明
-
