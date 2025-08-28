@@ -5,7 +5,7 @@
 
 [Map Local]
 # 开屏广告展示接口 - 返回空数据
-^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/show data="{\"code\":0,\"message\":\"success\",\"data\":{}}"
+^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/show data-path=https://raw.githubusercontent.com/jkqq147/SurgeClean/main/scripts/bilibili-empty.json
 
 [Script]
 # 开屏广告列表处理 - 移除广告内容
